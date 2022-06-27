@@ -8,18 +8,14 @@ set(CMAKE_CXX_STANDARD 11)
 list(APPEND GD_API_SOURCES Level.cc)
 list(APPEND GD_API_SOURCES LevelsManager.cc)
 list(APPEND GD_API_SOURCES tools/MemoryBlock.cc)
+list(APPEND GD_API_SOURCES tools/GDPlist.cc)
+
 list(APPEND GD_API_SOURCES tools/crypt/GDXor.cc)
 list(APPEND GD_API_SOURCES tools/crypt/GDCoder.cc)
 list(APPEND GD_API_SOURCES tools/crypt/GDBase64.cc)
 list(APPEND GD_API_SOURCES tools/crypt/GDPack.cc)
 
-list(APPEND GD_API_SOURCES tools/crypt/z/inflate.c)
-list(APPEND GD_API_SOURCES tools/crypt/z/crc32.c)
-list(APPEND GD_API_SOURCES tools/crypt/z/adler32.c)
-list(APPEND GD_API_SOURCES tools/crypt/z/inffast.c)
-list(APPEND GD_API_SOURCES tools/crypt/z/inftrees.c)
-list(APPEND GD_API_SOURCES tools/crypt/z/zutil.c)
-
+add_subdirectory(tools/crypt/z)
 
 if (WIN32)
     list(APPEND GD_API_SOURCES platform/LevelsManagerFactory_win.cc)
@@ -27,6 +23,7 @@ endif (WIN32)
 
 add_library(GDAPI-obj OBJECT)
 
+target_link_libraries(GDAPI-obj PRIVATE z)
 
 target_sources(GDAPI-obj PRIVATE ${GD_API_SOURCES})
 

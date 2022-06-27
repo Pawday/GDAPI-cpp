@@ -7,5 +7,8 @@ project(GDAPI CXX)
 add_subdirectory(src)
 
 
+add_subdirectory(utils)
+
+
 enable_testing()
 add_subdirectory(tests)

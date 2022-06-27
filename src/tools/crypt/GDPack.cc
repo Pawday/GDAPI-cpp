@@ -1,7 +1,7 @@
 #include <iostream>
 #include "GDPack.hh"
 
-#include "z/zlib.h"
+#include <zlib.h>
 
 #define UNPACK_BUFFER_CHUNK_SIZE 1024000
 
@@ -45,6 +45,8 @@ bool GDPack::unpack(MemoryBlock &data)
     }
 
     unpackBuffer.resize(stream.total_out);
+    
+    data = std::move(unpackBuffer);
 
     return true;
 }

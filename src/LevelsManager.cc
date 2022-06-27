@@ -2,3 +2,8 @@
 
 
 LevelsManager::LevelsManager() = default;
+
+LevelsManager::LevelsManager(GDPlist plist)
+{
+
+}

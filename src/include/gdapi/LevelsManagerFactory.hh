@@ -4,5 +4,6 @@
 class LevelsManagerFactory
 {
 public:
+    static std::string getLocalManagerLocation();
     static const LevelsManager *getLocal();
 };

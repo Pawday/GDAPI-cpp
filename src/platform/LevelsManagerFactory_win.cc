@@ -10,19 +10,7 @@
 
 const LevelsManager *LevelsManagerFactory::getLocal()
 {
-    std::string lmPath;
-
-    {
-        DWORD appDataPathSize = GetEnvironmentVariableA("LOCALAPPDATA", nullptr, 0);
-        lmPath.reserve(appDataPathSize);
-
-        char* path_cstr = new char[appDataPathSize];
-        GetEnvironmentVariableA("LOCALAPPDATA", path_cstr, appDataPathSize);
-        lmPath.append(path_cstr);
-        delete[] path_cstr;
-    }
-
-    lmPath.append(R"(\GeometryDash\CCLocalLevels.dat)");
+    std::string lmPath = getLocalManagerLocation();
 
     HANDLE datFile = CreateFileA
     (
@@ -64,6 +52,26 @@ const LevelsManager *LevelsManagerFactory::getLocal()
 
     GDCoder::decode(fileData);
 
+    GDPlist gdPlist(fileData);
 
-    return {};
+    return new LevelsManager(gdPlist);;
+}
+
+std::string LevelsManagerFactory::getLocalManagerLocation()
+{
+    std::string lmPath;
+
+    {
+        DWORD appDataPathSize = GetEnvironmentVariableA("LOCALAPPDATA", nullptr, 0);
+        lmPath.reserve(appDataPathSize);
+
+        char* path_cstr = new char[appDataPathSize];
+        GetEnvironmentVariableA("LOCALAPPDATA", path_cstr, appDataPathSize);
+        lmPath.append(path_cstr);
+        delete[] path_cstr;
+    }
+
+    lmPath.append(R"(\GeometryDash\CCLocalLevels.dat)");
+
+    return lmPath;
 }
